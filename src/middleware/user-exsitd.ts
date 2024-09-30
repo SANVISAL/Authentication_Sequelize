@@ -9,7 +9,7 @@ export const existedUser = async (data: IUser) => {
     if (user) {
       throw new HttpException("Email already exists", StatusCode.Conflict);
     }
-    return user;
+    console.log("User not conflict");
   } catch (error) {
     throw error;
   }

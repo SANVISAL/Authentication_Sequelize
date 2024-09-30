@@ -11,8 +11,9 @@ const validator = createValidator({ passError: true });
 // router.get("/", userController.getAllUsers);
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    validator.body(createUserSchema);
-    existedUser(req.body), userController.createUser;
+    await validator.body(createUserSchema);
+    await existedUser(req.body);
+    userController.createUser(req, res);
   } catch (error) {
     next(error);
   }
