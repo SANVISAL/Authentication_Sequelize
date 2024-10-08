@@ -13,7 +13,7 @@ export default class UserRepository {
       throw err;
     }
   }
-  public async getUserById(id: string): Promise<User | null> {
+  public async getUserById(id: number): Promise<User | null> {
     try {
       const user = await User.findByPk(id);
       return user;

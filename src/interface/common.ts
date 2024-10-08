@@ -7,11 +7,18 @@ export interface IUser extends User {
   password: string;
 }
 
-export interface IToken{
+export interface IToken {
   userId: number;
   refreshToken: string;
   expiresAt: Date;
 }
+
+export interface IUpdateRrfreshToken {
+  userId: number;
+  refreshToken: string;
+  expiresAt: Date;
+}
+
 export interface ResponseToken {
   accessToken: string;
   refreshToken: string;

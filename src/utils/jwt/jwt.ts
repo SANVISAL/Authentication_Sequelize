@@ -5,6 +5,17 @@ import bcrypt from "bcrypt";
 const privateKey = fs.readFileSync("private_key.pem", "utf8");
 const publicKey = fs.readFileSync("public_key.pem", "utf8");
 
+interface TokenPayload {
+  userId: number;
+  userName: string;
+  password: string;
+  aud: string;
+  scope: string;
+  jti: string;
+  iat: number;
+  exp: number;
+}
+
 export function generateJti(): string {
   return Math.random().toString(36).substring(7) + Date.now();
 }
@@ -13,7 +24,7 @@ export const generateToken = async (
   user: User
 ): Promise<{ accessToken: string; refreshToken: string }> => {
   try {
-    const Payload = {
+    const Payload: TokenPayload = {
       userId: user.id,
       userName: user.userName,
       password: user.password,
@@ -37,15 +48,17 @@ export const generateToken = async (
   }
 };
 
-export const verifyToken = async (token: string) => {
+export const verifyToken = async (
+  token: string
+): Promise<TokenPayload | null> => {
   try {
-    const decoded = await jwt.verify(token, publicKey, {
+    const decoded = (await jwt.verify(token, publicKey, {
       algorithms: ["RS256"],
-    } as any);
+    })) as TokenPayload;
     return decoded;
   } catch (error) {
     console.error("Error verifying token:", error);
-    throw error;
+    return null;
   }
 };
 
