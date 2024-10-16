@@ -10,7 +10,7 @@ export class TokenRepository {
       const tokenData = await Token.create({
         userId: issuerToken.userId,
         refreshToken: issuerToken.refreshToken,
-        expireAt: issuerToken.expiresAt,
+        expireAt: issuerToken.expireAt,
       });
       console.log("Generated Token:", tokenData);
       return tokenData;
@@ -40,6 +40,26 @@ export class TokenRepository {
       return true;
     } catch (error) {
       console.error("Error update refresh token:", error);
+      throw error;
+    }
+  }
+  public async deleteRefreshToken(id: number, forceDelete = false) {
+    try {
+      await Token.destroy({ where: { userId: id }, force: forceDelete });
+      console.log("Delete refresh token successfully");
+    } catch (error) {
+      console.error("Error delete refresh token:", error);
+      throw error;
+    }
+  }
+
+  public async getAllRefreshToken() {
+    try {
+      const tokens = await Token.findAll({ where: { deletedAt: null } });
+      console.log("Get all refresh tokens:", tokens);
+      return tokens;
+    } catch (error) {
+      console.error("Error get all refresh tokens:", error);
       throw error;
     }
   }

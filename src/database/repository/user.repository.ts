@@ -6,7 +6,12 @@ import { IUser } from "../../interface/common";
 export default class UserRepository {
   public async getAllUser(): Promise<User[]> {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({
+        where: {
+          deletedAt: null,
+        },
+      });
+      console.log("User:", users);
       return users;
     } catch (err) {
       console.error("Error fetching user data:", err);
@@ -22,16 +27,16 @@ export default class UserRepository {
       throw err;
     }
   }
-  public async create(data: IUser): Promise<User> {
-    try {
-      const user = await User.create(data as any);
-      console.log("User :", user);
-      return user;
-    } catch (err) {
-      console.error("Error creating user:", err);
-      throw err;
-    }
-  }
+  // public async create(data: IUser): Promise<User> {
+  //   try {
+  //     const user = await User.create(data as any);
+  //     console.log("User :", user);
+  //     return user;
+  //   } catch (err) {
+  //     console.error("Error creating user:", err);
+  //     throw err;
+  //   }
+  // }
   public async update(id: number, data: Partial<IUser>): Promise<User> {
     try {
       const user = await User.findByPk(id);
@@ -54,13 +59,14 @@ export default class UserRepository {
       throw err;
     }
   }
-  public async delete(id: string): Promise<void> {
+  public async delete(id: number, forceDelete = false): Promise<void> {
     try {
       const user = await User.findByPk(id);
       if (!user) {
         throw new Error("User not found");
       }
-      await user.destroy();
+      await User.destroy({ where: { id: user.id }, force: forceDelete });
+      console.log("User deleted successfully");
     } catch (err) {
       console.error("Error deleting user:", err);
       throw err;

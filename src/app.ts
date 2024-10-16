@@ -9,6 +9,7 @@ import { Token } from "../models/user-token.model"; // Import models
 import "../src/associations/association"; // Import associations
 
 const app = express();
+const PORT = 4000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
@@ -17,9 +18,6 @@ app.use(cors());
 
 // Use the API router
 app.use("/api", router);
-
-const PORT = 3000;
-
 // Authenticate and sync database
 sequelize
   .authenticate()
@@ -31,7 +29,6 @@ sequelize
     // Define associations
     User.associate();
     Token.associate();
-
     // Start the server after ensuring the database is connected
     app.listen(PORT, () => {
       console.log("Server is running on http://localhost:" + PORT);

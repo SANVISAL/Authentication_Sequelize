@@ -9,15 +9,36 @@ const router = Router();
 const userController = container.get<UserController>(UserController);
 const validator = createValidator({ passError: true });
 // router.get("/", userController.getAllUsers);
-router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await validator.body(createUserSchema);
-    await existedUser(req.body);
-    userController.createUser(req, res);
+    await userController.getAllUsers(req, res);
+    // return users;
   } catch (error) {
     next(error);
   }
 });
+// router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     await validator.body(createUserSchema);
+//     await existedUser(req.body);
+//     console.log("Hello");
+//     await userController.createUser(req, res);
+//     // return user;
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await userController.deleteUser(req, res);
+      // return user;
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 // router.get("/:id", userController.getUserById);
 // router.put("/:id", userController.updateUser);
 // router.delete("/:id", userController.deleteUser);

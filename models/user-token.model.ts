@@ -36,6 +36,10 @@ export class Token extends PrimaryModel {
     );
   }
   public static associate() {
-    Token.belongsTo(User, { foreignKey: "userId", as: "user" });
+    Token.belongsTo(User, {
+      foreignKey: "userId",
+      as: "user",
+      onDelete: "CASCADE",
+    });
   }
 }

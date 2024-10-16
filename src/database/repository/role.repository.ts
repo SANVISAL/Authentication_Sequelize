@@ -13,4 +13,13 @@ export class RoleRepository {
       throw error;
     }
   }
+  public async findRoleById(roleId: number) {
+    try {
+      const role = await Role.findByPk(roleId);
+      return role;
+    } catch (error) {
+      console.error("Error finding role by ID:", error);
+      throw error;
+    }
+  }
 }

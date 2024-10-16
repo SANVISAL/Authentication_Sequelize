@@ -3,6 +3,7 @@ import { Token, User } from "../../models";
 export interface IUser extends User {
   userName: string;
   gender: string;
+  roleId: number;
   email: string;
   password: string;
 }
@@ -10,7 +11,7 @@ export interface IUser extends User {
 export interface IToken {
   userId: number;
   refreshToken: string;
-  expiresAt: Date;
+  expireAt: Date;
 }
 
 export interface IUpdateRrfreshToken {
@@ -22,4 +23,5 @@ export interface IUpdateRrfreshToken {
 export interface ResponseToken {
   accessToken: string;
   refreshToken: string;
+  expiresIn?: number;
 }

@@ -8,6 +8,7 @@ const publicKey = fs.readFileSync("public_key.pem", "utf8");
 interface TokenPayload {
   userId: number;
   userName: string;
+  userRole: string;
   password: string;
   aud: string;
   scope: string;
@@ -21,12 +22,14 @@ export function generateJti(): string {
 }
 
 export const generateToken = async (
-  user: User
+  user: User,
+  role: string
 ): Promise<{ accessToken: string; refreshToken: string }> => {
   try {
     const Payload: TokenPayload = {
       userId: user.id,
       userName: user.userName,
+      userRole: role,
       password: user.password,
       aud: "authentication",
       scope: "read:messages",

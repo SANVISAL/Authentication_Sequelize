@@ -49,10 +49,15 @@ export class User extends PrimaryModel {
     );
   }
   public static associate() {
-    User.hasMany(Token, {
-      foreignKey: "userId",
-      as: "tokens",
+    // User.hasMany(Token, {
+    //   foreignKey: "tokenId",
+    //   as: "tokens",
+    //   onDelete: "CASCADE",
+    // });
+    User.belongsTo(Role, {
+      foreignKey: "roleId",
+      as: "role",
+      onDelete: "CASCADE",
     });
-    User.belongsTo(Role, { foreignKey: "roleId", as: "role" });
   }
 }
